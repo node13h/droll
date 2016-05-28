@@ -18,7 +18,7 @@ import string
 
 import dj_database_url
 
-from droll import utils
+from . import utils
 
 env = utils.Env()
 
