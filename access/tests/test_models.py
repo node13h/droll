@@ -1,6 +1,8 @@
 from django.test import TestCase
 from django.db import IntegrityError
 
+import pyotp
+
 from .factories import UserFactory
 from ..models import User
 
@@ -25,6 +27,34 @@ class UserTestCase(TestCase):
         UserFactory(email='john.smith@example.com')
         with self.assertRaises(IntegrityError):
             UserFactory(email='john.smith@example.com')
+
+    def test_otp_disabled_by_default(self):
+        user = UserFactory()
+        self.assertFalse(user.otp_enabled)
+
+    def test_otp_reset_secret_auto_secret(self):
+        user = UserFactory()
+        user.otp_reset_secret()
+        self.assertEqual(len(user.otp_secret), 16)
+        self.assertTrue(user.otp_enabled)
+
+    def test_otp_reset_secret_manual_secret(self):
+        user = UserFactory()
+        user.otp_reset_secret('43OX5WC634FQO5UY')
+        self.assertEqual(user.otp_secret, '43OX5WC634FQO5UY')
+        self.assertTrue(user.otp_enabled)
+
+    def test_otp_disable(self):
+        user = UserFactory()
+        user.otp_reset_secret()
+        user.otp_disable()
+        self.assertFalse(user.otp_enabled)
+
+    def test_otp_check_code(self):
+        user = UserFactory()
+        user.otp_reset_secret('43OX5WC634FQO5UY')
+        totp = pyotp.TOTP('43OX5WC634FQO5UY')
+        self.assertTrue(user.otp_check_code(totp.now()))
 
 
 class UserManagerTestCase(TestCase):

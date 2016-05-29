@@ -4,6 +4,8 @@ from django.contrib.auth.models import (
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
+import pyotp
+
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -42,6 +44,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         'Designates whether this user should be treated as '
         'active. Unselect this instead of deleting accounts.'))
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
+    otp_secret = models.CharField(
+        _('OTP secret'), max_length=16, default='', editable=False)
 
     USERNAME_FIELD = 'email'
 
@@ -52,3 +56,25 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.email
+
+    def otp_reset_secret(self, new_secret=None):
+        """
+        Sets new OTP secret. If none supplied - autogenerates one
+        """
+
+        if new_secret is None:
+            self.otp_secret = pyotp.random_base32()
+        else:
+            self.otp_secret = new_secret
+
+    def otp_disable(self):
+        self.otp_reset_secret('')
+
+    def otp_check_code(self, code):
+        totp = pyotp.TOTP(self.otp_secret)
+
+        return totp.verify(code)
+
+    @property
+    def otp_enabled(self):
+        return len(self.otp_secret) > 0
