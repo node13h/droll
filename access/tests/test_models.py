@@ -28,33 +28,29 @@ class UserTestCase(TestCase):
         with self.assertRaises(IntegrityError):
             UserFactory(email='john.smith@example.com')
 
-    def test_otp_disabled_by_default(self):
+    def test_two_fa_disabled_by_default(self):
         user = UserFactory()
-        self.assertFalse(user.otp_enabled)
+        self.assertFalse(user.two_fa_enabled)
 
     def test_otp_reset_secret_auto_secret(self):
         user = UserFactory()
         user.otp_reset_secret()
         self.assertEqual(len(user.otp_secret), 16)
-        self.assertTrue(user.otp_enabled)
 
     def test_otp_reset_secret_manual_secret(self):
         user = UserFactory()
         user.otp_reset_secret('43OX5WC634FQO5UY')
         self.assertEqual(user.otp_secret, '43OX5WC634FQO5UY')
-        self.assertTrue(user.otp_enabled)
-
-    def test_otp_disable(self):
-        user = UserFactory()
-        user.otp_reset_secret()
-        user.otp_disable()
-        self.assertFalse(user.otp_enabled)
 
     def test_otp_check_code(self):
         user = UserFactory()
         user.otp_reset_secret('43OX5WC634FQO5UY')
         totp = pyotp.TOTP('43OX5WC634FQO5UY')
         self.assertTrue(user.otp_check_code(totp.now()))
+
+    def test_otp_verified_false_by_default(self):
+        user = UserFactory.build()
+        self.assertFalse(user.otp_verified)
 
 
 class UserManagerTestCase(TestCase):

@@ -46,6 +46,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
     otp_secret = models.CharField(
         _('OTP secret'), max_length=16, default='', editable=False)
+    two_fa_enabled = models.BooleanField(
+        _('2FA enabled'), default=False, help_text=_(
+            'Designates whether the user has enabled two-factor auth.'))
+
+    otp_verified = False
 
     USERNAME_FIELD = 'email'
 
@@ -67,14 +72,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         else:
             self.otp_secret = new_secret
 
-    def otp_disable(self):
-        self.otp_reset_secret('')
-
     def otp_check_code(self, code):
         totp = pyotp.TOTP(self.otp_secret)
 
         return totp.verify(code)
 
-    @property
-    def otp_enabled(self):
-        return len(self.otp_secret) > 0
+    # TODO def otp_generate_url
