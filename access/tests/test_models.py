@@ -46,14 +46,12 @@ class UserTestCase(TestCase):
         user = UserFactory()
         user.otp_reset_secret('43OX5WC634FQO5UY')
         totp = pyotp.TOTP('43OX5WC634FQO5UY')
-        user.otp_verify(totp.now())
-        self.assertTrue(user.otp_verified)
+        self.assertTrue(user.otp_verify(totp.now()))
 
     def test_otp_verify_bad_code(self):
         user = UserFactory()
         user.otp_reset_secret('43OX5WC634FQO5UY')
-        user.otp_verify('BAD-CODE')
-        self.assertFalse(user.otp_verified)
+        self.assertFalse(user.otp_verify('BAD-CODE'))
 
     def test_otp_verified_false_by_default(self):
         user = UserFactory.build()

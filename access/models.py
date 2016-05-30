@@ -73,12 +73,8 @@ class User(AbstractBaseUser, PermissionsMixin):
             self.otp_secret = new_secret
 
     def otp_verify(self, code):
-        """
-        Verify OTP. Set self.otp_verified to True on success
-        """
-
         totp = pyotp.TOTP(self.otp_secret)
 
-        self.otp_verified = totp.verify(code)
+        return totp.verify(code)
 
     # TODO def otp_generate_url
