@@ -4,7 +4,7 @@ from django.contrib.auth.models import (
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
-import pyotp
+from . import otp
 
 
 class UserManager(BaseUserManager):
@@ -68,13 +68,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         """
 
         if new_secret is None:
-            self.otp_secret = pyotp.random_base32()
+            self.otp_secret = otp.generate_secret()
         else:
             self.otp_secret = new_secret
 
     def otp_verify(self, code):
-        totp = pyotp.TOTP(self.otp_secret)
-
-        return totp.verify(code)
+        return otp.verify(self.otp_secret, code)
 
     # TODO def otp_generate_url

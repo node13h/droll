@@ -1,10 +1,11 @@
+from unittest.mock import patch
+
 from django.test import TestCase
 from django.db import IntegrityError
 
-import pyotp
-
 from .factories import UserFactory
 from ..models import User
+from .. import otp
 
 
 class UserTestCase(TestCase):
@@ -14,12 +15,12 @@ class UserTestCase(TestCase):
         self.assertTrue(user.pk)
 
     def test_get_full_name(self):
-        user = UserFactory(email='john.smith@example.com')
+        user = UserFactory.build(email='john.smith@example.com')
 
         self.assertEqual(user.get_full_name(), 'john.smith@example.com')
 
     def test_get_short_name(self):
-        user = UserFactory(email='john.smith@example.com')
+        user = UserFactory.build(email='john.smith@example.com')
 
         self.assertEqual(user.get_short_name(), 'john.smith@example.com')
 
@@ -29,29 +30,32 @@ class UserTestCase(TestCase):
             UserFactory(email='john.smith@example.com')
 
     def test_two_fa_disabled_by_default(self):
-        user = UserFactory()
+        user = UserFactory.build()
         self.assertFalse(user.two_fa_enabled)
 
-    def test_otp_reset_secret_auto_secret(self):
-        user = UserFactory()
+    @patch.object(otp, 'generate_secret')
+    def test_otp_reset_secret_auto_secret(self, m_generate_secret):
+        m_generate_secret.return_value = '43OX5WC634FQO5UY'
+        user = UserFactory.build(otp_secret='')
         user.otp_reset_secret()
-        self.assertEqual(len(user.otp_secret), 16)
+        self.assertEqual(user.otp_secret, '43OX5WC634FQO5UY')
 
     def test_otp_reset_secret_manual_secret(self):
-        user = UserFactory()
+        user = UserFactory.build(otp_secret='')
         user.otp_reset_secret('43OX5WC634FQO5UY')
         self.assertEqual(user.otp_secret, '43OX5WC634FQO5UY')
 
-    def test_otp_verify(self):
-        user = UserFactory()
-        user.otp_reset_secret('43OX5WC634FQO5UY')
-        totp = pyotp.TOTP('43OX5WC634FQO5UY')
-        self.assertTrue(user.otp_verify(totp.now()))
+    @patch.object(otp, 'verify')
+    def test_otp_verify_success(self, m_verify):
+        m_verify.return_value = True
+        user = UserFactory.build()
+        self.assertTrue(user.otp_verify('000000'))
 
-    def test_otp_verify_bad_code(self):
-        user = UserFactory()
-        user.otp_reset_secret('43OX5WC634FQO5UY')
-        self.assertFalse(user.otp_verify('BAD-CODE'))
+    @patch.object(otp, 'verify')
+    def test_otp_verify_fail(self, m_verify):
+        m_verify.return_value = False
+        user = UserFactory.build()
+        self.assertFalse(user.otp_verify('000000'))
 
     def test_otp_verified_false_by_default(self):
         user = UserFactory.build()
