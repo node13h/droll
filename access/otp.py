@@ -19,7 +19,7 @@ def verify(secret, code):
     :param str secret: OTP secret string
     :param str code: The code to be verified
 
-    :rtype: str
+    :rtype: bool
     :returns: true on success
     """
     totp = pyotp.TOTP(secret)
