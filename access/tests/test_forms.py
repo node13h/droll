@@ -1,6 +1,7 @@
 from unittest.mock import MagicMock, patch
 
 from django.test import TestCase
+from django.core.exceptions import ImproperlyConfigured
 
 from .. import otp
 from .. import forms
@@ -48,3 +49,9 @@ class OtpFormTestCase(TestCase):
         request.user = UserFactory.build()
         form = forms.OtpForm(request, {'code': '0'})
         self.assertFalse(form.is_valid())
+
+    def test_unauthenticated_fails(self):
+        request = MagicMock()
+        request.user.is_authenticated.return_value = False
+        with self.assertRaises(ImproperlyConfigured):
+            forms.OtpForm(request)

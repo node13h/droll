@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from django.core.exceptions import ImproperlyConfigured
 
 from .models import User
 
@@ -21,8 +22,9 @@ class OtpForm(forms.Form):
                            widget=forms.PasswordInput())
 
     def __init__(self, request, *args, **kwargs):
-        assert request.user.is_authenticated(), (
-            'OtpForm shoud never be used for unauthenticated users')
+        if not request.user.is_authenticated():
+            raise ImproperlyConfigured(
+                'OtpForm should only be used for authenticated users')
 
         self.request = request
         super().__init__(*args, **kwargs)
