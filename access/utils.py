@@ -1,7 +1,6 @@
 from django.conf import settings
 
 
-# TODO: Cover with tests
 def two_fa_pass(request):
     """
     Sets cookie indicating two-factor auth was passed successfully.
