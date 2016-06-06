@@ -50,8 +50,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         _('2FA enabled'), default=False, help_text=_(
             'Designates whether the user has enabled two-factor auth.'))
 
-    otp_verified = False
-
     USERNAME_FIELD = 'email'
 
     objects = UserManager()

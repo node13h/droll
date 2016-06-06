@@ -57,10 +57,6 @@ class UserTestCase(TestCase):
         user = UserFactory.build()
         self.assertFalse(user.otp_verify('000000'))
 
-    def test_otp_verified_false_by_default(self):
-        user = UserFactory.build()
-        self.assertFalse(user.otp_verified)
-
 
 class UserManagerTestCase(TestCase):
     def test_create_user(self):
