@@ -138,3 +138,4 @@ STATICFILES_DIRS = (
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'access.User'
+OTP_SESSION_FLAG_NAME = 'otp_verified'
