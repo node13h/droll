@@ -1,7 +1,5 @@
-from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import User
 from .forms import UserCreationForm, UserChangeForm
 
 
@@ -24,6 +22,3 @@ class UserAdmin(UserAdmin):
     list_filter = ('is_active', )
     search_fields = ('email',)
     ordering = ('email',)
-
-
-admin.site.register(User, UserAdmin)
