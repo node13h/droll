@@ -13,8 +13,11 @@ Including another URLconf
     1. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import include, url
+
 from . import admin
+from blog.views import RollView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', RollView.as_view(), name='landing')
 ]
