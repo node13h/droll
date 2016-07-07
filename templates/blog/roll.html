@@ -1,3 +1,15 @@
-<html>
-
-</html>
+{% extends 'base.html' %}
+{% block content %}
+  <section id="roll">
+    {% for post in object_list %}
+      <article class="post" id="post-{{ post.id }}">
+        <header id="post-{{ post.id }}-title">
+          <h1>{{ post.title }}</h1>
+        </header>
+        <section id="post-{{ post.id }}-body">
+          {{ post.body|safe }}
+        </section>
+      </article>
+    {% endfor %}
+  </section>
+{% endblock %}
