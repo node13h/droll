@@ -45,3 +45,6 @@ class Post(models.Model):
     body = models.TextField(_('body'))
 
     objects = PostManager()
+
+    def __str__(self):
+        return self.slug

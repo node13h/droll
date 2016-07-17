@@ -15,6 +15,12 @@ class PostTestCase(TestCase):
 
         self.assertTrue(post.pk)
 
+    def test_str(self):
+        post = PostFactory(timestamp=datetime(1980, 5, 13, 14, 1, 2, tzinfo=utc),
+                           slug='test-post')
+
+        self.assertEqual(str(post), 'test-post')
+
     def test_manager_roll_non_public_own_only(self):
         user1 = UserFactory()
         user2 = UserFactory()
