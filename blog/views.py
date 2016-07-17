@@ -7,4 +7,4 @@ class RollView(ListView):
     template_name = 'blog/roll.html'
 
     def get_queryset(self):
-        return Post.objects.all()
+        return Post.objects.roll(self.request.user)
