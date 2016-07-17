@@ -1,8 +1,11 @@
 from django.db import models
 from django.db.models import Q
+from django.db.models.signals import pre_save
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from django.utils.text import slugify
 from django.conf import settings
+from django.dispatch import receiver
 
 
 class PostManager(models.Manager):
@@ -48,3 +51,11 @@ class Post(models.Model):
 
     def __str__(self):
         return self.slug
+
+
+@receiver(pre_save, sender=Post)
+def update_slug(sender, instance, *args, **kwargs):
+    # The following will update slug each time title changes..
+    # TODO Implement Slug model to keep history of the slugs for
+    # the Post model to avoiud broken links on title change.
+    instance.slug = slugify(instance.title)

@@ -21,6 +21,12 @@ class PostTestCase(TestCase):
 
         self.assertEqual(str(post), 'test-post')
 
+    def test_slug_derived_from_title_on_save(self):
+        post = PostFactory()
+        post.title = 'This is a test post'
+        post.save()
+        self.assertEqual(post.slug, 'this-is-a-test-post')
+
     def test_manager_roll_non_public_own_only(self):
         user1 = UserFactory()
         user2 = UserFactory()
