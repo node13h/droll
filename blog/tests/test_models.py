@@ -16,8 +16,8 @@ class PostTestCase(TestCase):
         self.assertTrue(post.pk)
 
     def test_str(self):
-        post = PostFactory(timestamp=datetime(1980, 5, 13, 14, 1, 2, tzinfo=utc),
-                           slug='test-post')
+        post = PostFactory.build()
+        post.slug = 'test-post'
 
         self.assertEqual(str(post), 'test-post')
 
