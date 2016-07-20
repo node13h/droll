@@ -8,12 +8,12 @@ class BlogTemplatetagsTestCase(TestCase):
         body = """# H1 heading
 
 **Paragraph** text
-
+<strong>html markup works</strong>
 ## H2 heading
 
 ~~~~{.python}
 if True:
-  print("Some Python code in markdown")
+  print("Some <b>Python</b> code in markdown")
 ~~~~
 
 1 First
@@ -22,10 +22,11 @@ if True:
 3. Last"""
 
         expected = """<h1>H1 heading</h1>
-<p><strong>Paragraph</strong> text</p>
+<p><strong>Paragraph</strong> text
+<strong>html markup works</strong></p>
 <h2>H2 heading</h2>
 <pre><code class="python">if True:
-  print(&quot;Some Python code in markdown&quot;)
+  print(&quot;Some &lt;b&gt;Python&lt;/b&gt; code in markdown&quot;)
 </code></pre>
 
 <p>1 First
