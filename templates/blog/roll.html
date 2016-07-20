@@ -1,4 +1,12 @@
 {% extends 'base.html' %}
+
+{% load markdown %}
+{% load staticfiles %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static "vendor/highlight/styles/default.css" %}">
+{% endblock %}
+
 {% block content %}
   <section id="roll">
     {% for post in object_list %}
@@ -7,9 +15,14 @@
           <h1>{{ post.title }}</h1>
         </header>
         <section id="post-{{ post.id }}-body">
-          {{ post.body|safe }}
+          {{ post.body|md_as_html5 }}
         </section>
       </article>
     {% endfor %}
   </section>
+{% endblock %}
+
+{% block extra_scripts %}
+  <script src="{% static 'vendor/highlight/highlight.pack.js' %}"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
 {% endblock %}

@@ -95,6 +95,10 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+table {
+    border: solid 1px gray;
+}
+
 .container {
     padding: 15px;
 }
@@ -103,18 +107,22 @@ textarea {
     margin-right: 275px;
 }
 
-#roll > article p,
-#roll > article header {
-    width: 70%;
+img {
+    max-width: 100%;
+}
+
+#roll > article > section > *,
+#roll > article > header {
+    max-width: 77%;
     margin-left: auto;
     margin-right: auto;
 }
 
-#roll > article p.code {
-    width: 100%;
+#roll > article pre {
+    max-width: 100%;
     border-top: solid 1px gray;
     border-bottom: solid 1px gray;
-    background-color: #ffd;
+    font-size: 0.8em;
 }
 
 #sidebar {
@@ -122,32 +130,32 @@ textarea {
     width: 250px;
 }
 
-@media (max-width: 992px) {
-    #roll > article p,
-    #roll > article header {
-        width: 88%;
-    }
-}
-
-@media (max-width: 768px) {
-    .container {
-        padding: 2px;
+@media (max-width: 1024px) {
+    #roll > article > section > *,
+    #roll > article > header {
+        max-width: 100%;
+        margin-left: 30px;
     }
 
     .content {
-        margin-right: 2px;
-    }
-
-    #roll > article p,
-    #roll > article header {
-        width: 96%;
-        margin-left: auto;
-        margin-right: auto;
+        margin-right: 0;
     }
 
     #sidebar {
         display: none;
     }
+}
+
+@media (max-width: 768px) {
+    #roll > article > section > *,
+    #roll > article > header {
+        margin-left: 0;
+    }
+
+    .container {
+        padding: 2px;
+    }
+
 }
 
 
