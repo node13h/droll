@@ -9,7 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from access.decorators import verified_otp_required
 from access.models import User
-from blog.models import Post
+from blog.models import Post, Link
 from access.admin import UserAdmin
 from access.views import otp_verify
 
@@ -70,3 +70,4 @@ site = AdminSite()
 site.register(User, UserAdmin)
 site.register(Group, GroupAdmin)
 site.register(Post)
+site.register(Link)
