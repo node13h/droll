@@ -124,8 +124,12 @@ h7 {
     font-weight: 600;
 }
 
-.post > header  {
-    border-bottom: solid 1px #eee;
+.post > .body {
+    color: #444;
+}
+
+.post {
+    margin-bottom: 4em;
 }
 
 .post > header > h1 {

@@ -11,11 +11,11 @@
   <section id="roll">
     {% for post in object_list %}
       <article class="post" id="post-{{ post.id }}">
-        <header id="post-{{ post.id }}-title">
+        <header class="title" id="post-{{ post.id }}-title">
           <h1>{{ post.title }}</h1>
           <small>{{ post.timestamp }}</small>
         </header>
-        <section id="post-{{ post.id }}-body">
+        <section class="body" id="post-{{ post.id }}-body">
           {{ post.body|md_as_html5 }}
         </section>
       </article>
