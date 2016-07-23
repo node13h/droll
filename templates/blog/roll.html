@@ -13,6 +13,7 @@
       <article class="post" id="post-{{ post.id }}">
         <header id="post-{{ post.id }}-title">
           <h1>{{ post.title }}</h1>
+          <small>{{ post.timestamp }}</small>
         </header>
         <section id="post-{{ post.id }}-body">
           {{ post.body|md_as_html5 }}
