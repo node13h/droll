@@ -1,6 +1,6 @@
 import factory
 
-from access.models import User
+from ..models import User
 
 
 class UserFactory(factory.django.DjangoModelFactory):
