@@ -1,0 +1,35 @@
+@font-face {
+  font-family: 'Noto Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Noto Serif Regular'), local('Noto-Serif-Regular'),
+  url('../../vendor/noto/notoserif-regular-webfont.woff') format('woff'),
+  url('../../vendor/noto/NotoSerif-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Noto Serif';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Noto Serif Italic'), local('Noto-Serif-Italic'),
+  url('../../vendor/noto/notoserif-italic-webfont.woff') format('woff'),
+  url('../../vendor/noto/NotoSerif-Italic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Noto Serif';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Noto Serif Bold'), local('Noto-Serif-Bold'),
+  url('../../vendor/noto/notoserif-bold-webfont.woff') format('woff'),
+  url('../../vendor/noto/NotoSerif-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Noto Serif';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Noto Serif Bold Italic'), local('Noto-Serif-Bold-Italic'),
+  url('../../vendor/noto/notoserif-bolditalic-webfont.woff') format('woff'),
+  url('../../vendor/noto/NotoSerif-BoldItalic.ttf') format('truetype');
+}
