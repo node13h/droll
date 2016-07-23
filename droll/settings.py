@@ -80,6 +80,7 @@ MIDDLEWARE_CLASSES = (
 if DEBUG and not TESTING:
     INSTALLED_APPS += (
         'django_extensions',
+        'debug_toolbar',
     )
 
     MIDDLEWARE_CLASSES += (
