@@ -7,10 +7,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 
 from .. import decorators
 from .. import otp
-
-
-def dummy_view(request):
-    return 'SIGNATURE'
+from core.tests.utils import dummy_view
 
 
 class DecoratorsTestCase(TestCase):
