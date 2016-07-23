@@ -94,6 +94,9 @@ textarea {
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+body {
+    font-family: 'Open Sans',sans-serif;
+}
 
 table {
     border: solid 1px gray;
@@ -109,6 +112,16 @@ table {
 
 img {
     max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+h7 {
+    font-weight: 600;
 }
 
 .post > header  {
