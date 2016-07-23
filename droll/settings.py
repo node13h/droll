@@ -100,6 +100,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'core.context_processors.site_title',
             ],
         },
     },
@@ -143,3 +144,7 @@ AUTH_USER_MODEL = 'access.User'
 
 OTP_VERIFY_URL = '/access/otp/'
 OTP_SESSION_FLAG_NAME = 'otp_verified'
+
+
+# Empty title is allowed
+SITE_TITLE = env.get('SITE_TITLE', 'Let\'s roll')
