@@ -1,4 +1,5 @@
 from django.contrib.auth.admin import UserAdmin
+from django.utils.translation import ugettext_lazy as _
 
 from .forms import UserCreationForm, UserChangeForm
 
@@ -8,9 +9,10 @@ class UserAdmin(UserAdmin):
     add_form = UserCreationForm
 
     fieldsets = (
-        (None, {'fields': ('email', 'password',)}),
-        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser',)}),
-        ('Groups', {'fields': ('groups', 'user_permissions',)}),
+        (None, {'fields': ('email', 'password', 'two_fa_enabled')}),
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',)}),
+        (_('Groups'), {'fields': ('groups', 'user_permissions',)}),
+        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
 
     add_fieldsets = (
