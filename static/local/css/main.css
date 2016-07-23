@@ -114,6 +114,22 @@ img {
     max-width: 100%;
 }
 
+.links > header > .title {
+    font-size: 1.2em;
+    margin-bottom: 1em;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #ccc;
+}
+
+.links > ul {
+    list-style-type: none;
+    padding: 0;
+    line-height: 1.6em;
+    font-weight: 600;
+    font-size: 1.2em;
+}
+
 h1,
 h2,
 h3,
@@ -198,6 +214,8 @@ h7 {
 #sidebar {
     float: right;
     width: 250px;
+    padding-left: 30px;
+    padding-top: 30px;
 }
 
 @media (max-width: 1024px) {

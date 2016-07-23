@@ -19,10 +19,17 @@
     <div class="container">
 
       <aside id="sidebar">
-        <ul>
-          <li>One</li>
-          <li>Two</li>
-        </ul>
+
+        <section class="links">
+          <header><span class="title">Links</span></header>
+
+          <ul class="links">
+            {% for link in links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </section>
+
       </aside>
 
       <div class="content">
