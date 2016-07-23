@@ -7,3 +7,6 @@ class Link(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     title = models.CharField(_('title'), max_length=30)
     url = models.CharField(_('URL'), max_length=2000)
+
+    def __str__(self):
+        return self.title
