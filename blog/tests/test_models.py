@@ -4,16 +4,9 @@ from datetime import datetime
 from django.test import TestCase
 from django.utils.timezone import utc
 
-from .factories import PostFactory, LinkFactory
+from .factories import PostFactory
 from ..models import Post
 from access.tests.factories import UserFactory
-
-
-class LinkTestCase(TestCase):
-    def test_model(self):
-        link = LinkFactory()
-
-        self.assertTrue(link.pk)
 
 
 class PostTestCase(TestCase):

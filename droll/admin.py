@@ -9,7 +9,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from access.decorators import verified_otp_required
 from access.models import User
-from blog.models import Post, Link
+from blog.models import Post
+from core.models import Link
 from access.admin import UserAdmin
 from access.views import otp_verify
 

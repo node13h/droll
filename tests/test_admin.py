@@ -8,6 +8,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from droll import admin
 import access.models
 import blog.models
+import core.models
 
 
 class AdminModuleTestCase(TestCase):
@@ -18,7 +19,7 @@ class AdminModuleTestCase(TestCase):
         self.assertIn(Group, admin.site._registry)
         self.assertIn(access.models.User, admin.site._registry)
         self.assertIn(blog.models.Post, admin.site._registry)
-        self.assertIn(blog.models.Link, admin.site._registry)
+        self.assertIn(core.models.Link, admin.site._registry)
 
 
 class AdminSiteTestCase(TestCase):
