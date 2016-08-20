@@ -141,15 +141,17 @@ h7 {
 }
 
 .site-title {
+    margin-bottom: 3em;
+}
+
+.site-title > a {
+    border-bottom: solid 2px #f44;
+    text-decoration: none;
+    color: black;
     font-size: 3em;
-    margin-bottom: 1em;
     font-family: 'Noto Serif',serif;
     font-weight: 700;
     text-transform: uppercase;
-}
-
-.site-title > .title {
-    border-bottom: solid 2px #f44;
 }
 
 .post > .body {
@@ -196,14 +198,14 @@ h7 {
 }
 
 .site-title,
-#roll > article > section > *,
-#roll > article > header {
+.post-container > article > section > *,
+.post-container > article > header {
     max-width: 77%;
     margin-left: auto;
     margin-right: auto;
 }
 
-#roll > article pre {
+.post-container > article pre {
     max-width: 100%;
     border-top: solid 1px gray;
     border-bottom: solid 1px gray;
@@ -219,8 +221,8 @@ h7 {
 
 @media (max-width: 1024px) {
     .site-title,
-    #roll > article > section > *,
-    #roll > article > header {
+    .post-container > article > section > *,
+    .post-container > article > header {
         max-width: 100%;
         margin-left: 30px;
     }
@@ -236,8 +238,8 @@ h7 {
 
 @media (max-width: 768px) {
     .site-title,
-    #roll > article > section > *,
-    #roll > article > header {
+    .post-container > article > section > *,
+    .post-container > article > header {
         margin-left: 0;
     }
 

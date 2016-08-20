@@ -2,15 +2,15 @@
 
 {% load staticfiles %}
 
+{% block title %}<title>{{ post.title }}</title>{% endblock %}
+
 {% block extra_head %}
   <link rel="stylesheet" href="{% static "vendor/highlight/styles/default.css" %}">
 {% endblock %}
 
 {% block content %}
-  <section class="post-container" id="roll">
-    {% for post in object_list %}
-      {% include 'partials/post.html' %}
-    {% endfor %}
+  <section class="post-container" id="piece">
+    {% include 'partials/post.html' %}
   </section>
 {% endblock %}
 

@@ -3,6 +3,7 @@ from datetime import datetime
 
 from django.test import TestCase
 from django.utils.timezone import utc
+from django.core.urlresolvers import reverse
 
 from .factories import PostFactory
 from ..models import Post
@@ -26,6 +27,16 @@ class PostTestCase(TestCase):
         post.title = 'This is a test post'
         post.save()
         self.assertEqual(post.slug, 'this-is-a-test-post')
+
+    def test_get_absolute_url(self):
+        post = PostFactory()
+        self.assertEqual(
+            post.get_absolute_url(),
+            reverse('blog:post_detail',
+                    kwargs={'slug': post.slug,
+                            'year': '{:04d}'.format(post.timestamp.year),
+                            'month': '{:02d}'.format(post.timestamp.month),
+                            'day': '{:02d}'.format(post.timestamp.day)}))
 
     def test_queryset_relevant(self):
         user1 = UserFactory()

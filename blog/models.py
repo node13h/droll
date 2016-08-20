@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 from django.conf import settings
 from django.dispatch import receiver
+from django.core.urlresolvers import reverse
 
 
 class PostQuerySet(models.QuerySet):
@@ -59,6 +60,13 @@ class Post(models.Model):
 
     def __str__(self):
         return self.slug
+
+    def get_absolute_url(self):
+        return reverse('blog:post_detail',
+                       kwargs={'slug': self.slug,
+                               'year': '{:04d}'.format(self.timestamp.year),
+                               'month': '{:02d}'.format(self.timestamp.month),
+                               'day': '{:02d}'.format(self.timestamp.day)})
 
 
 @receiver(pre_save, sender=Post)
