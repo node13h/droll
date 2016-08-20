@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 
-{% load markdown %}
 {% load staticfiles %}
 
 {% block extra_head %}
@@ -10,15 +9,7 @@
 {% block content %}
   <section id="roll">
     {% for post in object_list %}
-      <article class="post" id="post-{{ post.id }}">
-        <header class="title" id="post-{{ post.id }}-title">
-          <h1>{{ post.title }}</h1>
-          <small>{{ post.timestamp }}</small>
-        </header>
-        <section class="body" id="post-{{ post.id }}-body">
-          {{ post.body|md_as_html5 }}
-        </section>
-      </article>
+      {% include 'partials/post.html' %}
     {% endfor %}
   </section>
 {% endblock %}

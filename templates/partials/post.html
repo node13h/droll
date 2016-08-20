@@ -1,0 +1,11 @@
+{% load markdown %}
+
+<article class="post" id="post-{{ post.id }}">
+  <header class="title" id="post-{{ post.id }}-title">
+    <h1><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
+    <small>{{ post.timestamp }}</small>
+  </header>
+  <section class="body" id="post-{{ post.id }}-body">
+    {{ post.body|md_as_html5 }}
+  </section>
+</article>
