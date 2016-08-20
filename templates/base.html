@@ -33,7 +33,7 @@
       </aside>
 
       <div class="content">
-        <div class="site-title"><span class="title">{{ title }}</span></div>
+        <div class="site-title"><a href="{% url 'landing' %}">{{ title }}</a></div>
 
         {% block content %}{% endblock %}
       </div>
