@@ -8,7 +8,20 @@ from django.conf import settings
 from django.dispatch import receiver
 
 
+class PostQuerySet(models.QuerySet):
+    def relevant(self, user):
+        f = Q(public=True)
+
+        if user.is_authenticated():
+            f |= Q(user=user)
+
+        return self.filter(f)
+
+
 class PostManager(models.Manager):
+    def get_queryset(self):
+        return PostQuerySet(self.model, using=self._db)
+
     def roll(self, user, *, limit=None, start=None):
         """
         Return personalized blog roll
@@ -26,12 +39,7 @@ class PostManager(models.Manager):
         if start is not None:
             qs = qs.filter(timestamp__gte=start)
 
-        f = Q(public=True)
-
-        if user.is_authenticated():
-            f |= Q(user=user)
-
-        qs = qs.filter(f).order_by('-timestamp')
+        qs = qs.relevant(user).order_by('-timestamp')
 
         if limit is not None:
             qs = qs[:limit]

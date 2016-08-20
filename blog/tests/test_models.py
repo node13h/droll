@@ -27,6 +27,35 @@ class PostTestCase(TestCase):
         post.save()
         self.assertEqual(post.slug, 'this-is-a-test-post')
 
+    def test_queryset_relevant(self):
+        user1 = UserFactory()
+        user2 = UserFactory()
+
+        post1 = PostFactory(user=user1, public=True)
+        post2 = PostFactory(user=user1, public=False)
+        post3 = PostFactory(user=user2, public=True)
+        post4 = PostFactory(user=user2, public=False)
+
+        relevant = Post.objects.all().relevant(user1)
+
+        self.assertIn(post1, relevant)
+        self.assertIn(post2, relevant)
+        self.assertIn(post3, relevant)
+        self.assertNotIn(post4, relevant)
+
+    def test_queryset_relevant_unauthenticated_public_only(self):
+        user1 = MagicMock()
+        user1.is_authenticated.return_value = False
+        user2 = UserFactory()
+
+        post1 = PostFactory(user=user2, public=True)
+        post2 = PostFactory(user=user2, public=False)
+
+        relevant = Post.objects.all().relevant(user1)
+
+        self.assertIn(post1, relevant)
+        self.assertNotIn(post2, relevant)
+
     def test_manager_roll_non_public_own_only(self):
         user1 = UserFactory()
         user2 = UserFactory()
