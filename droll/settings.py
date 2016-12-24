@@ -49,7 +49,7 @@ if PRODUCTION:
 
 DEFAULT_FROM_EMAIL = env.get('DEFAULT_FROM_EMAIL') or 'webmaster@localhost'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.get_list('ALLOWED_HOSTS', ['*'])
 
 
 # Application definition
@@ -150,3 +150,29 @@ OTP_SESSION_FLAG_NAME = 'otp_verified'
 
 # Empty title is allowed
 SITE_TITLE = env.get('SITE_TITLE', 'Let\'s roll')
+
+static_backend = env.get('STATIC_BACKEND', 'local')
+
+if static_backend == 'local':
+
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+    STATIC_ROOT = env.get('STATIC_ROOT')
+
+elif static_backend == 'sftp':
+
+    STATICFILES_STORAGE = 'core.storage_backends.SFTPStaticFilesStorage'
+
+    STATIC_STORAGE_SFTP = {
+        'HOST': env.get('STATIC_SFTP_HOST'),
+        'CONNECT_PARAMS': {},
+        'ROOT': env.get('STATIC_SFTP_ROOT'),
+        'BASE_URL': env.get('STATIC_SFTP_BASE_URL'),
+    }
+
+    sftpstorage_username = env.get('STATIC_SFTP_USERNAME')
+    sftpstorage_password = env.get('STATIC_SFTP_PASSWORD')
+    STATIC_SFTP_PARAMS = {}
+    if sftpstorage_username:
+        STATIC_STORAGE_SFTP['CONNECT_PARAMS']['username'] = sftpstorage_username
+    if sftpstorage_password:
+        STATIC_STORAGE_SFTP['CONNECT_PARAMS']['password'] = sftpstorage_password
