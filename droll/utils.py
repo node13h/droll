@@ -69,3 +69,19 @@ class Env(object):
             return default
 
         return value.lower() in self.true_values
+
+    def get_list(self, var, default=None):
+        """
+        Split env var value before returning
+        Return default if value is not set
+        """
+
+        try:
+            value = self.env[var]
+        except KeyError:
+            return default
+
+        if value:
+            return value.split(',')
+        else:
+            return []

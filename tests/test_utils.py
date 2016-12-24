@@ -26,6 +26,7 @@ class EnvTestCase(TestCase):
             'TEST_ENV_EMPTY': '',
             'TEST_ENV_STR': 'A Test String',
             'TEST_ENV_INT': '9000',
+            'TEST_ENV_LIST': 'one,t wo,three',
         }
 
     @fake_env
@@ -59,9 +60,20 @@ class EnvTestCase(TestCase):
     def test_get(self):
         env = utils.Env()
 
-        self.assertEquals(env.get('TEST_ENV_STR'), 'A Test String')
+        self.assertEqual(env.get('TEST_ENV_STR'), 'A Test String')
         self.assertIsNone(env.get('TEST_ENV_NON_EXISTING'))
-        self.assertEquals(env.get('TEST_ENV_NON_EXISTING', default='Test'), 'Test')
+        self.assertEqual(env.get('TEST_ENV_NON_EXISTING', default='Test'), 'Test')
+
+    @fake_env
+    def test_get_list(self):
+        env = utils.Env()
+
+        self.assertEqual(env.get_list('TEST_ENV_STR'), ['A Test String'])
+        self.assertEqual(env.get_list('TEST_ENV_EMPTY'), [])
+        self.assertIsNone(env.get_int('TEST_ENV_NON_EXISTING'))
+        self.assertEqual(env.get_list('TEST_ENV_LIST'), ['one', 't wo', 'three'])
+        self.assertEqual(env.get_list(
+            'TEST_ENV_NON_EXISTING', default=['Test']), ['Test'])
 
     @fake_env
     def test_setitem(self):
