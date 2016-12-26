@@ -237,7 +237,7 @@ After=network.target
 
 [Service]
 User=${service_user}
-ExecStart=$(readlink -f "${0}") start
+ExecStart="$(readlink -f "${0}")" -e "$(readlink -f "${ENV_FILE}")" start
 EOF
     else
         error "Only SystemD-based systems are supported at the moment"
