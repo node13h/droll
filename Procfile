@@ -1,1 +1,1 @@
-web: gunicorn droll.wsgi
+web: gunicorn droll.application.wsgi

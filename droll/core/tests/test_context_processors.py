@@ -2,7 +2,7 @@ from unittest.mock import MagicMock
 
 from django.test import TestCase
 
-from access.tests.factories import UserFactory
+from droll.access.tests.factories import UserFactory
 from .factories import LinkFactory
 from .. import context_processors
 

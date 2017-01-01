@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 
 from .factories import PostFactory
 from ..models import Post
-from access.tests.factories import UserFactory
+from droll.access.tests.factories import UserFactory
 
 
 class PostTestCase(TestCase):

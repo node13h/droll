@@ -7,7 +7,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 
 from .. import decorators
 from .. import otp
-from core.tests.utils import dummy_view
+from droll.core.tests.utils import dummy_view
 
 
 class DecoratorsTestCase(TestCase):

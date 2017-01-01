@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import access.models
+from ..models import UserManager
 
 
 class Migration(migrations.Migration):
@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.AlterModelManagers(
             name='user',
             managers=[
-                ('objects', access.models.UserManager()),
+                ('objects', UserManager()),
             ],
         ),
     ]

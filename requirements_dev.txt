@@ -1,0 +1,6 @@
+-e .
+paramiko
+factory-boy
+django-debug-toolbar
+django-extensions
+Werkzeug

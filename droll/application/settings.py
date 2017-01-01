@@ -61,9 +61,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core',
-    'access',
-    'blog',
+    'droll.core',
+    'droll.access',
+    'droll.blog',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -87,8 +87,11 @@ if DEBUG and not TESTING:
         'debug_toolbar.middleware.DebugToolbarMiddleware',
     )
 
+    INTERNAL_IPS = '127.0.0.1'
 
-ROOT_URLCONF = 'droll.urls'
+TEST_RUNNER = 'droll.tests.runner.DrollDiscoverRunner'
+
+ROOT_URLCONF = 'droll.application.urls'
 
 TEMPLATES = [
     {
@@ -101,23 +104,28 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'core.context_processors.site_title',
-                'core.context_processors.links',
+                'droll.core.context_processors.site_title',
+                'droll.core.context_processors.links',
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'droll.wsgi.application'
+WSGI_APPLICATION = 'droll.application.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-DATABASES = {
-    'default': dj_database_url.config()
+FALLBACK_DEFAULT_DATABASE = {
+    'ENGINE': 'django.db.backends.sqlite3',
+    'NAME': 'db.sqlite3',
 }
 
+
+DATABASES = {
+    'default': dj_database_url.config() or FALLBACK_DEFAULT_DATABASE
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -160,7 +168,7 @@ if static_backend == 'local':
 
 elif static_backend == 'sftp':
 
-    STATICFILES_STORAGE = 'core.storage_backends.SFTPStaticFilesStorage'
+    STATICFILES_STORAGE = 'droll.core.storage_backends.SFTPStaticFilesStorage'
 
     STATIC_STORAGE_SFTP = {
         'HOST': env.get('STATIC_SFTP_HOST'),

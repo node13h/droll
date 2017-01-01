@@ -5,10 +5,10 @@ from django.contrib.auth.models import Group
 from django.http import HttpResponse
 from django.contrib.auth import REDIRECT_FIELD_NAME
 
-from droll import admin
-import access.models
-import blog.models
-import core.models
+from droll.application import admin
+import droll.access.models
+import droll.blog.models
+import droll.core.models
 
 
 class AdminModuleTestCase(TestCase):
@@ -17,9 +17,9 @@ class AdminModuleTestCase(TestCase):
 
     def test_registered(self):
         self.assertIn(Group, admin.site._registry)
-        self.assertIn(access.models.User, admin.site._registry)
-        self.assertIn(blog.models.Post, admin.site._registry)
-        self.assertIn(core.models.Link, admin.site._registry)
+        self.assertIn(droll.access.models.User, admin.site._registry)
+        self.assertIn(droll.blog.models.Post, admin.site._registry)
+        self.assertIn(droll.core.models.Link, admin.site._registry)
 
 
 class AdminSiteTestCase(TestCase):

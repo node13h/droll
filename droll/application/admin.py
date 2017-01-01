@@ -7,12 +7,12 @@ from django.views.decorators.cache import never_cache
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.utils.translation import ugettext_lazy as _
 
-from access.decorators import verified_otp_required
-from access.models import User
-from blog.models import Post
-from core.models import Link
-from access.admin import UserAdmin
-from access.views import otp_verify
+from droll.access.decorators import verified_otp_required
+from droll.access.models import User
+from droll.blog.models import Post
+from droll.core.models import Link
+from droll.access.admin import UserAdmin
+from droll.access.views import otp_verify
 
 
 class AdminSite(admin.AdminSite):

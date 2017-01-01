@@ -1,7 +1,7 @@
 import factory
 
 from ..models import Post
-from access.tests.factories import UserFactory
+from droll.access.tests.factories import UserFactory
 
 
 class PostFactory(factory.django.DjangoModelFactory):

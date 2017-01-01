@@ -13,14 +13,21 @@ Including another URLconf
     1. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import include, url
+from django.conf import settings
 
 from . import admin
-from blog.views import RollView
-import blog.urls
+from droll.blog.views import RollView
+import droll.blog.urls
 
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^blog/', include(blog.urls, namespace='blog', app_name='blog')),
+    url(r'^blog/', include(droll.blog.urls, namespace='blog', app_name='blog')),
     url(r'^$', RollView.as_view(), name='landing')
 ]
+
+if settings.DEBUG and not settings.TESTING:
+    import debug_toolbar
+    urlpatterns += [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ]

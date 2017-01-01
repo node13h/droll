@@ -1,7 +1,7 @@
 import factory
 
 from ..models import Link
-from access.tests.factories import UserFactory
+from droll.access.tests.factories import UserFactory
 
 
 class LinkFactory(factory.django.DjangoModelFactory):
