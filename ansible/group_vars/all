@@ -1,0 +1,36 @@
+---
+
+app_name: droll
+
+var_dir: "/var/lib/{{ app_name }}"
+etc_dir: "/etc/{{ app_name }}"
+dest_dir: "/opt/{{ app_name }}"
+
+env_file: "{{ etc_dir }}/env"
+
+service_user: "{{ app_name }}"
+gunicorn_workers: "{{ ansible_processor_cores * ansible_processor_count }}"
+gunicorn_bind: "127.0.0.1:8080"
+
+support_postgresql: no
+
+overwrite_env: no
+
+redeploy_app: no
+
+# Override the settings in the host_vars or the group_vars
+
+env_secret_key: ""
+env_database_url: "sqlite:///{{ var_dir }}/db.sqlite3"
+env_debug: "0"
+env_default_from_email: "{{ app_name }}@{{ ansible_nodename }}"
+env_allowed_hosts: "*"
+env_language_code: "en-us"
+env_time_zone: "UTC"
+env_static_backend: "local"
+env_static_root: "{{ var_dir }}/static"
+env_static_sftp_host: ""
+env_static_sftp_root: ""
+env_static_sftp_username: ""
+env_static_sftp_password: ""
+env_static_sftp_base_url: "/static/"

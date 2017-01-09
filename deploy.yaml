@@ -1,0 +1,114 @@
+---
+
+- hosts: all
+  become: yes
+
+  tasks:
+    - name: get latest application version
+      local_action: command python setup.py --version
+      register: setup_version
+
+    - set_fact:
+        sdist: "{{ app_name }}-{{ setup_version.stdout }}.tar.gz"
+
+    - name: etc directory
+      file:
+        name: "{{ etc_dir }}"
+        state: directory
+
+    - name: var directory
+      file:
+        name: "{{ var_dir }}"
+        state: directory
+        owner: "{{ service_user }}"
+
+    - name: deploy environment file, do not overwrite
+      template:
+        src: ansible/env.j2
+        dest: "{{ env_file }}"
+        force: "{{ overwrite_env }}"
+
+    - name: create service user
+      user:
+        name: "{{ service_user }}"
+        comment: "{{ app_name }} service user"
+
+    - name: copy source distribution to the temporary location
+      copy:
+        src: "dist/{{ sdist }}"
+        dest: /tmp/
+        owner: "{{ service_user }}"
+        mode: 0600
+
+    - name: deploy systemd service file
+      template:
+        src: ansible/systemd.service.j2
+        dest: "/etc/systemd/system/{{ app_name }}.service"
+      when: ansible_service_mgr == "systemd"
+
+    - name: stop systemd service
+      systemd:
+        state: stopped
+        daemon_reload: yes
+        name: "{{ app_name }}.service"
+      when: ansible_service_mgr == "systemd"
+
+    - name: "remove {{ dest_dir }} (redeploy)"
+      file:
+        name: "{{ dest_dir }}"
+        state: absent
+      when: redeploy_app
+
+    # Assuming python3 and virtualenv OS packages are already installed and functional
+
+    # Ansible 2.2.0 pip module has an ugly BUG with python3 virtualenvs
+    # See: https://github.com/ansible/ansible-modules-core/issues/5347
+    # Cannot use lower version because of the systemd dependency.
+    # Given that - creating virtualenv manually for now.
+    - stat:
+        path: "{{ dest_dir }}/bin/pip3"
+      register: pip3
+
+    - name: create virtualenv
+      command: "/usr/bin/virtualenv -p python3 {{ dest_dir|quote }}"
+      when: pip3.stat.exists == False
+
+    - name: install package and dependencies
+      command: "{{ dest_dir|quote }}/bin/pip3 install /tmp/{{ sdist|quote }} --upgrade --force-reinstall"
+
+    - name: install psycopg2 package
+      command: "{{ dest_dir|quote }}/bin/pip3 install psycopg2"
+      when: support_postgresql
+
+    - name: install paramiko package
+      command: "{{ dest_dir|quote }}/bin/pip3 install paramiko"
+      when: env_static_backend == "sftp"
+
+
+- hosts: masters
+  become: yes
+  become_user: "{{ service_user }}"
+
+  tasks:
+    - name: apply database migrations
+      shell: 'set -a; source {{ env_file|quote }}; {{ dest_dir|quote }}/bin/droll-admin.py migrate --noinput'
+
+    - name: ensure staticfiles directory exists
+      file:
+        name: "{{ env_static_root }}"
+        state: directory
+      when: env_static_backend == "local"
+
+    - name: collect staticfiles
+      shell: "set -a; source {{ env_file|quote }}; {{ dest_dir|quote }}/bin/droll-admin.py collectstatic --noinput"
+
+
+- hosts: all
+  become: yes
+
+  tasks:
+    - name: start systemd service
+      systemd:
+        state: started
+        name: "{{ app_name }}.service"
+      when: ansible_service_mgr == "systemd"

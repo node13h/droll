@@ -1,0 +1,8 @@
+[Unit]
+Description={{ app_name }}.service
+After=network.target
+
+[Service]
+User={{ service_user }}
+EnvironmentFile={{ env_file | quote }}
+ExecStart={{ dest_dir | quote }}/bin/gunicorn --bind={{ gunicorn_bind }} --workers={{ gunicorn_workers }} {{ app_name }}.application.wsgi
