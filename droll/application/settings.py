@@ -174,7 +174,7 @@ elif static_backend == 'sftp':
         'HOST': env.get('STATIC_SFTP_HOST'),
         'CONNECT_PARAMS': {},
         'ROOT': env.get('STATIC_SFTP_ROOT'),
-        'BASE_URL': env.get('STATIC_SFTP_BASE_URL'),
+        'BASE_URL': env.get('STATIC_SFTP_BASE_URL', '/static/'),
     }
 
     sftpstorage_username = env.get('STATIC_SFTP_USERNAME')
