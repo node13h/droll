@@ -16,7 +16,8 @@
 
 from unittest.mock import MagicMock
 
-from django.test import TestCase
+from django.test import TestCase, override_settings
+from django.conf import settings
 
 from droll.access.tests.factories import UserFactory
 from .factories import LinkFactory
@@ -45,3 +46,20 @@ class CoreContextProcessorsTestCase(TestCase):
         self.assertIn(link1, links)
         self.assertIn(link2, links)
         self.assertIn(link3, links)
+
+    def test_analytics(self):
+        request = MagicMock()
+
+        with self.settings(GA_TRACKING_ID='UA-12345678-0'):
+            context = context_processors.analytics(request)
+
+        self.assertEqual(context['ga_tracking_id'], 'UA-12345678-0')
+
+    @override_settings()
+    def test_analytics_unset(self):
+        request = MagicMock()
+
+        del settings.GA_TRACKING_ID
+        context = context_processors.analytics(request)
+
+        self.assertIsNone(context['ga_tracking_id'])

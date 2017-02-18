@@ -13,6 +13,10 @@
     <link rel="stylesheet" href="{% static "local/css/opensans.css" %}">
     <link rel="stylesheet" href="{% static "local/css/noto.css" %}">
     {% block extra_head %}{% endblock %}
+
+    {% if ga_tracking_id %}
+      {% include 'partials/analytics.html' %}
+    {% endif %}
   </head>
 
   <body>

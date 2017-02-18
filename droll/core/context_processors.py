@@ -25,3 +25,12 @@ def site_title(request):
 
 def links(request):
     return {'links': Link.objects.all()}
+
+
+def analytics(request):
+    try:
+        ga_tracking_id = settings.GA_TRACKING_ID
+    except AttributeError:
+        ga_tracking_id = None
+
+    return dict(ga_tracking_id=ga_tracking_id)

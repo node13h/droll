@@ -106,6 +106,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'droll.core.context_processors.site_title',
                 'droll.core.context_processors.links',
+                'droll.core.context_processors.analytics',
             ],
         },
     },
@@ -184,3 +185,5 @@ elif static_backend == 'sftp':
         STATIC_STORAGE_SFTP['CONNECT_PARAMS']['username'] = sftpstorage_username
     if sftpstorage_password:
         STATIC_STORAGE_SFTP['CONNECT_PARAMS']['password'] = sftpstorage_password
+
+GA_TRACKING_ID = env.get('GA_TRACKING_ID')
