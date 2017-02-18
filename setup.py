@@ -12,7 +12,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 setup(
     name='droll',
 
-    version='0.1.dev1',
+    version='0.1.dev2',
 
     description='Code-friendly blogging platform',
     long_description=long_description,
