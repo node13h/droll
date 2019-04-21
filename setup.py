@@ -8,11 +8,14 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
+with open(path.join(here, 'VERSION')) as f:
+    version = f.read().strip()
+
 
 setup(
     name='droll',
 
-    version='0.1.dev2',
+    version=version,
 
     description='Code-friendly blogging platform',
     long_description=long_description,

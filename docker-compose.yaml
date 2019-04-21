@@ -1,0 +1,41 @@
+---
+
+version: '3'
+services:
+  app:
+    environment:
+      DATABASE_URL: postgres://postgres:hunter2@postgres/postgres
+    image: docker.io/alikov/droll
+    links:
+      - postgres
+    entrypoint:
+      - sh
+      - "-c"
+      - "droll-admin.py migrate --noinput && STATIC_ROOT=/static droll-admin.py collectstatic --noinput && gunicorn droll.application.wsgi --bind=0.0.0.0:8080 --workers=${WORKERS:-2}"
+    volumes:
+      - "static:/static"
+    restart: on-failure
+  nginx:
+    image: docker.io/alikov/droll-nginx
+    links:
+      - app
+    volumes:
+      - "static:/static"
+    ports:
+      - "80:80"
+  postgres:
+    shm_size: "2gb"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: hunter2
+    image: postgres:9.6.12-alpine
+    command:
+      - "-c"
+      - "shared_buffers=1GB"
+      - "-c"
+      - "effective_cache_size=2GB"
+
+volumes:
+  postgres-data:
+  static:
